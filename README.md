@@ -1,11 +1,18 @@
 # sniffel
 
-## Firebase setup
+## Firebase
+
+### Basic Setup
 ```
 $ # create project, set location, select firestore (native mode)
 $ firebase login
 $ firebase init
 # with firestore, functions, hosting, storage, (emulators)
+```
+
+### Generate CI Token
+```
+$ firebase login:ci
 ```
 
 ## Project setup

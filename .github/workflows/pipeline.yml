@@ -19,6 +19,10 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v2
+    - name: Use Node 12.x
+      uses: actions/setup-node@master
+      with:
+        node-version: '12.x'
     # - name: Use Node.js ${{ matrix.node-version }}
     #   uses: actions/setup-node@v1
     #   with:
@@ -40,8 +44,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      # firebase-cli requires the firebase repo to deploy (specifically the firebase.json and /functions)
       - name: Checkout Repo
         uses: actions/checkout@v2
+      - name: Use Node 12.x
+        uses: actions/setup-node@master
+        with:
+          node-version: '12.x'
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
@@ -49,7 +58,7 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy
+          args: deploy --except functions
           # args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
