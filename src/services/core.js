@@ -3,6 +3,7 @@ import "firebase/firestore"
 import config from "@/config"
 
 async function init() {
+    console.log("core.init");
     firebase.initializeApp(config.firebase);
     const db = firebase.firestore();
 
@@ -12,6 +13,18 @@ async function init() {
     // from your firestore.settings() call now.
     db.settings({
         // timestampsInSnapshots: true,
+    });
+
+    db.collection("users").add({
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815
+    })
+    .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
     });
 }
 

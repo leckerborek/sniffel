@@ -41,7 +41,7 @@ import core from "@/services/core"
 
 export default {
   async created() {
-    console.log("Application Component Created");
+    console.log("app.created");
     await core.init();
   },
   props: {
