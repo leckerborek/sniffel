@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    name: Build Web Project
     runs-on: ubuntu-latest
     # strategy:
     #   matrix:
@@ -18,15 +19,11 @@ jobs:
         # node-version: [ 12.x ]
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v2
-    - name: Use Node 12.x
+      uses: actions/checkout@master
+    - name: Use Node.js 12.x
       uses: actions/setup-node@master
       with:
         node-version: '12.x'
-    # - name: Use Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v1
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: npm ci
     - name: Build
@@ -40,25 +37,25 @@ jobs:
         path: dist
 
   deploy:
-    name: Deploy
+    name: Deploy to Firebase
     needs: build
     runs-on: ubuntu-latest
     steps:
       # firebase-cli requires the firebase repo to deploy (specifically the firebase.json and /functions)
       - name: Checkout Repo
-        uses: actions/checkout@v2
-      - name: Use Node 12.x
-        uses: actions/setup-node@master
-        with:
-          node-version: '12.x'
+        uses: actions/checkout@master
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
           name: dist
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@master
+        with:
+          node-version: '12.x'
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --except functions
-          # args: deploy --only hosting
+          args: deploy
+          # args: deploy --except functions
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
