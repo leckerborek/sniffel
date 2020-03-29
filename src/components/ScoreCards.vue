@@ -14,7 +14,8 @@
       </v-col>-->
       <!-- https://vuejs.org/v2/guide/list.html -->
       <v-col v-for="card in roomData.cards" :key="card.id">
-        <v-card outlined title>
+        <!-- <v-card outlined title> -->
+        <v-list>
           <v-list-item>
             <v-text-field v-model="card.player" label="Name" :single-line="true" @change="pushData"></v-text-field>
           </v-list-item>
@@ -72,15 +73,15 @@
               @change="pushData"
             ></v-text-field>
           </v-list-item>
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider> -->
           <v-list-item>Summe oben: {{sumUpper(card)}}</v-list-item>
           <v-list-item>Bonus: {{bonusUpper(card)}}</v-list-item>
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider> -->
           <v-list-item>
             <v-text-field
               v-model.number="card.threeofakind"
               label="3 gleiche"
-              placeholder="Summe"
+              placeholder="Alle Augen"
               type="number"
               @change="pushData"
             ></v-text-field>
@@ -89,7 +90,7 @@
             <v-text-field
               v-model.number="card.fourofakind"
               label="4 gleiche"
-              placeholder="Summe"
+              placeholder="Alle Augen"
               type="number"
               @change="pushData"
             ></v-text-field>
@@ -125,7 +126,7 @@
             <v-text-field
               v-model.number="card.chance"
               label="Chance"
-              placeholder="Summe"
+              placeholder="Alle Augen"
               type="number"
               @change="pushData"
             ></v-text-field>
@@ -139,12 +140,13 @@
               @change="pushData"
             ></v-text-field>
           </v-list-item>
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider> -->
           <v-list-item>Summe unten: {{sumLower(card)}}</v-list-item>
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider> -->
           <v-list-item>Gesamt: {{sumTotal(card)}}</v-list-item>
-          <v-divider></v-divider>
-        </v-card>
+          <!-- <v-divider></v-divider> -->
+        </v-list>
+        <!-- </v-card> -->
       </v-col>
     </v-row>
   </v-container>
@@ -163,7 +165,7 @@ export default {
     roomData: Object
   },
   data: () => ({
-    dense: false
+    dense: true
   }),
   methods: {
     sumUpper(card) {

@@ -3,25 +3,27 @@ import firebase from "firebase/app"
 import "firebase/firestore"
 import ScoreCard from "@/data/ScoreCard"
 import { v4 as uuidv4 } from 'uuid';
+import randomName from "node-random-name"
 
 const collection = "rooms";
 
-function createScoreCard() {
+function createScoreCard(name) {
+    // undefined is not supperted by firebase
     const card = {
-        name: "",
-        one: undefined,
-        two: undefined,
-        three: undefined,
-        four: undefined,
-        five: undefined,
-        six: undefined,
-        threeofakind: undefined,
-        fourofakind: undefined,
-        fullhouse: undefined,
-        smallstraight: undefined,
-        largestraight: undefined,
-        chance: undefined,
-        yahtzee: undefined
+        player: name,
+        one: null,
+        two: null,
+        three: null,
+        four: null,
+        five: null,
+        six: null,
+        threeofakind: null,
+        fourofakind: null,
+        fullhouse: null,
+        smallstraight: null,
+        largestraight: null,
+        chance: null,
+        yahtzee: null
     };
 
     return card;
@@ -75,9 +77,12 @@ const scoreCardsConverter = {
 async function createDefaultRoom(roomName) {
     const data = {
         cards: [
-            new ScoreCard("ready player"),
-            new ScoreCard("twu!"),
-            new ScoreCard("tree")
+            createScoreCard(randomName({first: true})),
+            createScoreCard(randomName({first: true})),
+            createScoreCard(randomName({first: true}))
+            // new ScoreCard("ready player"),
+            // new ScoreCard("twu!"),
+            // new ScoreCard("tree")
         ]
     };
 
@@ -85,7 +90,7 @@ async function createDefaultRoom(roomName) {
         const docRef = await firebase.firestore()
             .collection(collection)
             .doc(roomName)
-            .withConverter(scoreCardsConverter)
+            // .withConverter(scoreCardsConverter)
             .set(data);
 
         console.log("Document written (undefined is ok): ", docRef);
@@ -99,7 +104,7 @@ async function initRoom(roomName) {
     const snapshot = await firebase.firestore()
         .collection(collection)
         .doc(roomName)
-        .withConverter(scoreCardsConverter)
+        // .withConverter(scoreCardsConverter)
         .get();
 
     if (snapshot.exists) {
@@ -119,6 +124,7 @@ async function observeRoom(roomName, callback) {
             console.log(`rooms.observeRoom(${roomName})`, doc.data());
             const data = doc.data();
             if (Array.isArray(data.cards)) {
+                // unique id is required by v-for
                 data.cards = data.cards.map(card => ({ ...card, id: uuidv4() }));
             }
             callback(data);
