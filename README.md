@@ -1,5 +1,7 @@
 # sniffel
 
+![Build & Deploy](https://github.com/leckerborek/sniffel/workflows/Build%20&%20Deploy/badge.svg)
+
 ## Firebase
 
 ### Basic Setup
