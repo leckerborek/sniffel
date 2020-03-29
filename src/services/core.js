@@ -15,17 +15,59 @@ async function init() {
         // timestampsInSnapshots: true,
     });
 
-    db.collection("users").add({
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
+    const card = {
+        name: "",
+        one: 0,
+        two: 0,
+        three: 0,
+        four: 0,
+        five: 0,
+        six: 0,
+        threeofakind: 0,
+        fourofakind: 0,
+        fullhouse: 0,
+        smallstraight: 0,
+        largestraight: 0,
+        chance: 0,
+        yahtzee: 0
+    };
+
+    const boardName = "snifflers";
+
+    function createBoard(name) {
+        const data = {
+            cards: [
+                {
+                    ...card, name: "sniffler #1"
+                },
+                {
+                    ...card, name: "sniffler #2"
+                }
+            ]
+        };
+
+        db.collection("boards").doc(name).set(data)
+            .then(function (docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
+    }
+
+    const snap = await db.collection("boards").doc(boardName).get();
+    if (snap.exists) {
+        console.log("board.room found!");
+    } else {
+        console.log("board.room does not exist, creating...");
+        createBoard(boardName);
+    }
+
+    // db.collection("users").get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(`${doc.id} => ${doc.data()}`);
+    //     });
+    // });
 }
 
 export default {
