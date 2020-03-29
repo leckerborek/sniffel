@@ -27,7 +27,7 @@
     </v-app-bar>
 
     <v-content>
-      <room room-id="public-room"></room>
+      <room room-name="public-room"></room>
     </v-content>
     <v-footer color="indigo" app>
       <span class="white--text">a #stayathome project</span>
@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import Room from "@/components/Room.vue";
 import core from "@/services/core"
+import Room from "@/components/Room.vue";
 
 export default {
   async created() {

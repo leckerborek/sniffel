@@ -7,13 +7,14 @@
           </v-col>
     </v-row>-->
     <v-row align="start" justify="space-around">
-      <h2>Willkommen in {{roomId}} 👋</h2>
+      <h2>Willkommen in {{roomName}} 👋</h2>
     </v-row>
+    <score-cards :room-name="roomName" :room-data="roomData"></score-cards>
     <v-row align="stretch">
       <vue-webrtc
         ref="webrtc"
         width="100%"
-        :roomId="roomId"
+        :roomId="roomName"
         v-on:joined-room="joinedRoom"
         v-on:left-room="logEvent"
         v-on:open-room="logEvent"
@@ -39,22 +40,31 @@
 
 <script>
 import util from "@/services/util";
-import rooms from "@/services/rooms"
+import rooms from "@/services/rooms";
+import ScoreCards from "@/components/ScoreCards";
 
 export default {
   name: "room",
+  components: {
+    ScoreCards
+  },
   async created() {
     console.log("room.created");
-    await rooms.initRoom(this.roomId);
-    await rooms.observeRoom(this.roomId);
+    await rooms.initRoom(this.roomName);
+    await rooms.observeRoom(this.roomName, this.onDataChanged);
   },
   props: {
-    roomId: String
+    roomName: String
   },
   data: () => ({
+    roomData: {},
     draggable: false
   }),
   methods: {
+    onDataChanged(data) {
+      console.log("room.onDataChanged", data);
+      this.roomData = data;
+    },
     onJoin() {
       this.$refs.webrtc.join();
     },

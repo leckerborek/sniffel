@@ -2,25 +2,26 @@
 import firebase from "firebase/app"
 import "firebase/firestore"
 import ScoreCard from "@/data/ScoreCard"
+import { v4 as uuidv4 } from 'uuid';
 
 const collection = "rooms";
 
 function createScoreCard() {
     const card = {
         name: "",
-        one: 0,
-        two: 0,
-        three: 0,
-        four: 0,
-        five: 0,
-        six: 0,
-        threeofakind: 0,
-        fourofakind: 0,
-        fullhouse: 0,
-        smallstraight: 0,
-        largestraight: 0,
-        chance: 0,
-        yahtzee: 0
+        one: undefined,
+        two: undefined,
+        three: undefined,
+        four: undefined,
+        five: undefined,
+        six: undefined,
+        threeofakind: undefined,
+        fourofakind: undefined,
+        fullhouse: undefined,
+        smallstraight: undefined,
+        largestraight: undefined,
+        chance: undefined,
+        yahtzee: undefined
     };
 
     return card;
@@ -109,13 +110,18 @@ async function initRoom(roomName) {
     }
 }
 
-async function observeRoom(roomName) {
+async function observeRoom(roomName, callback) {
     firebase.firestore()
         .collection(collection)
         .doc(roomName)
         // .withConverter(scoreCardsConverter)
         .onSnapshot(function (doc) {
-            console.log("Current data: ", doc.data());
+            console.log(`rooms.observeRoom(${roomName})`, doc.data());
+            const data = doc.data();
+            if (Array.isArray(data.cards)) {
+                data.cards = data.cards.map(card => ({ ...card, id: uuidv4() }));
+            }
+            callback(data);
         });
 
     // db.collection("users").get().then((querySnapshot) => {
@@ -125,7 +131,20 @@ async function observeRoom(roomName) {
     // });
 }
 
+async function updateRoom(roomName, data) {
+    try {
+        const result = await firebase.firestore()
+            .collection(collection)
+            .doc(roomName)
+            .set(data);
+        console.log("New data pushed", result)
+    } catch (error) {
+        console.error("Could not push new data", error);
+    }
+}
+
 export default {
     initRoom,
-    observeRoom
+    observeRoom,
+    updateRoom
 }
