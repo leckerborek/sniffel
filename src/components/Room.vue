@@ -25,7 +25,7 @@
 
     <!-- <v-row align="stretch">
         <div style="width:100px;height:100px;background:orange" />
-    </v-row> -->
+    </v-row>-->
 
     <v-row align="baseline" justify="space-around">
       <v-btn @click="onJoin">Join Video</v-btn>
@@ -39,9 +39,15 @@
 
 <script>
 import util from "@/services/util";
+import rooms from "@/services/rooms"
 
 export default {
   name: "room",
+  async created() {
+    console.log("room.created");
+    await rooms.initRoom(this.roomId);
+    await rooms.observeRoom(this.roomId);
+  },
   props: {
     roomId: String
   },
