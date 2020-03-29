@@ -37,8 +37,13 @@
 
 <script>
 import Room from "@/components/Room.vue";
+import core from "@/services/core"
 
 export default {
+  async created() {
+    console.log("Application Component Created");
+    await core.init();
+  },
   props: {
     source: String
   },
