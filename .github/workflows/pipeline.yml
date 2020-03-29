@@ -52,6 +52,8 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: '12.x'
+      - name: Install dependencies
+        run: npm ci
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
