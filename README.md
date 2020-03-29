@@ -1,5 +1,13 @@
 # sniffel
 
+## Firebase setup
+```
+$ # create project, set location, select firestore (native mode)
+$ firebase login
+$ firebase init
+# with firestore, functions, hosting, storage, (emulators)
+```
+
 ## Project setup
 ```
 npm install
