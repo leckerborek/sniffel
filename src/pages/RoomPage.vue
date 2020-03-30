@@ -1,11 +1,5 @@
 <template>
   <v-container class="fill-height">
-    <!-- <v-container class="fill-height" fluid> -->
-    <!-- <v-layout row justify-space-between> -->
-    <!-- <v-row align="center" justify="center">
-          <v-col class="text-center">
-          </v-col>
-    </v-row>-->
     <v-row align="start" justify="space-around">
       <h2>Willkommen in {{roomName}} 👋</h2>
     </v-row>
@@ -44,7 +38,7 @@ import rooms from "@/services/rooms";
 import ScoreCards from "@/components/ScoreCards";
 
 export default {
-  name: "room",
+  name: "RoomPage",
   components: {
     ScoreCards
   },

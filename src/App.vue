@@ -1,21 +1,28 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
-      <v-list dense>
-        <v-list-item link>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">Sniffel</v-list-item-title>
+          <v-list-item-subtitle>Sniffeltastic!</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+      <v-list dense nav>
+        <v-list-item link to="/join">
           <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-glass-cocktail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Hello</v-list-item-title>
+            <v-list-item-title>Join</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/debug">
           <v-list-item-action>
-            <v-icon>mdi-information</v-icon>
+            <v-icon>mdi-bug</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>About</v-list-item-title>
+            <v-list-item-title>Debug</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -27,7 +34,8 @@
     </v-app-bar>
 
     <v-content>
-      <room room-name="public-room"></room>
+      <router-view />
+      <!-- <room room-name="public-room"></room> -->
     </v-content>
     <v-footer color="indigo" app>
       <span class="white--text">a #stayathome project</span>
@@ -36,8 +44,7 @@
 </template>
 
 <script>
-import core from "@/services/core"
-import Room from "@/components/Room.vue";
+import core from "@/services/core";
 
 export default {
   async created() {
@@ -48,12 +55,9 @@ export default {
     source: String
   },
   data: () => ({
-    drawer: null,
-    img: null
+    drawer: null
   }),
   methods: {},
-  components: {
-    Room
-  }
+  components: {}
 };
 </script>
