@@ -5,7 +5,7 @@
     </v-row>
     <score-cards :room-name="roomName" :room-data="roomData"></score-cards>
     <v-row align="stretch">
-      <vue-webrtc
+      <webrtc
         ref="webrtc"
         width="100%"
         :roomId="roomName"
@@ -15,7 +15,7 @@
         v-on:share-started="logEvent"
         v-on:share-stopped="logEvent"
         @error="onError"
-      ></vue-webrtc>
+      ></webrtc>
     </v-row>
 
     <!-- <v-row align="stretch">
@@ -36,11 +36,13 @@
 import util from "@/services/util";
 import rooms from "@/services/rooms";
 import ScoreCards from "@/components/ScoreCards";
+import webrtc from "@/components/webrtc"
 
 export default {
   name: "RoomPage",
   components: {
-    ScoreCards
+    ScoreCards,
+    webrtc
   },
   async created() {
     console.log("room.created");
