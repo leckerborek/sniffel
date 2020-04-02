@@ -6,6 +6,7 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-btn></v-btn>
       <webrtc
         ref="webrtc"
         width="100%"
@@ -29,11 +30,17 @@
 </style>
 
 <script>
+/* eslint-disable no-debugger */
+import { getName } from "ikea-name-generator";
 import webrtc from "../components/webrtc.vue";
 export default {
   name: "DebugPage",
   components: {
     webrtc
+  },
+  created() {
+    debugger;
+    console.log(getName(false));
   },
   methods: {
     onJoin() {

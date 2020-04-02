@@ -11,7 +11,7 @@
     "adapterjs": "^0.15.4",
     "core-js": "^3.6.4",
     "firebase": "^7.13.1",
-    "node-random-name": "^1.0.1",
+    "ikea-name-generator": "^1.0.3",
     "rtcmulticonnection": "^3.6.9",
     "uuid": "^7.0.2",
     "vue": "^2.6.11",

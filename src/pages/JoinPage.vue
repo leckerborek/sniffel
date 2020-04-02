@@ -26,10 +26,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: url("https://media.giphy.com/media/3oGRFlpAW4sIHA02NW/giphy.gif")
+  background: url("https://media.giphy.com/media/PkL2FAFQYUmPWYrXEg/giphy.gif")
     no-repeat center center;
   background-size: cover;
-  transform: scale(1.1);
+  transform: scale(1.5);
 }
 </style>
 

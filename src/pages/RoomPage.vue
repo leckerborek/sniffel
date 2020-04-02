@@ -23,6 +23,7 @@
     </v-row>-->
 
     <v-row align="baseline" justify="space-around">
+      <v-btn @click="newPlayer">Neuer Spieler</v-btn>
       <v-btn @click="onJoin">Join Video</v-btn>
       <v-btn @click="onLeave">Leave</v-btn>
       <v-btn @click="onShareScreen">Share Screen</v-btn>
@@ -36,7 +37,8 @@
 import util from "@/services/util";
 import rooms from "@/services/rooms";
 import ScoreCards from "@/components/ScoreCards";
-import webrtc from "@/components/webrtc"
+import webrtc from "@/components/webrtc";
+import { createCard } from "@/data/card";
 
 export default {
   name: "RoomPage",
@@ -57,6 +59,10 @@ export default {
     draggable: false
   }),
   methods: {
+    async newPlayer() {
+      this.roomData.cards.push(createCard());
+      await rooms.updateRoom(this.roomName, this.roomData);
+    },
     onDataChanged(data) {
       console.log("room.onDataChanged", data);
       this.roomData = data;

@@ -1,165 +1,179 @@
 <template>
   <v-container>
     <v-row no-gutters>
-      <!-- <v-col>
-        <v-card outlined title>
-          <v-list-item>Name</v-list-item>
-          <v-list-item>1er</v-list-item>
-          <v-list-item>2er</v-list-item>
-          <v-list-item>3er</v-list-item>
-          <v-list-item>4er</v-list-item>
-          <v-list-item>5er</v-list-item>
-          <v-list-item>6er</v-list-item>
-        </v-card>
-      </v-col>-->
       <!-- https://vuejs.org/v2/guide/list.html -->
       <v-col v-for="card in roomData.cards" :key="card.id">
         <!-- <v-card outlined title> -->
-        <v-list>
-          <v-list-item>
-            <v-text-field v-model="card.player" label="Name" :single-line="true" @change="pushData"></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.one"
-              label="1er"
-              placeholder="1, 2, 3, 4, 5, 6"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.two"
-              label="2er"
-              placeholder="2, 4, 6, 8, 10"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.three"
-              label="3er"
-              placeholder="3, 6, 9, 12, 15"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.four"
-              label="4er"
-              placeholder="4, 8, 12, 16, 20"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.five"
-              label="5er"
-              placeholder="5, 10, 15, 20, 25"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.six"
-              label="6er"
-              placeholder="6, 12, 18, 24, 30"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <!-- <v-divider></v-divider> -->
-          <v-list-item>Summe oben: {{sumUpper(card)}}</v-list-item>
-          <v-list-item>Bonus: {{bonusUpper(card)}}</v-list-item>
-          <!-- <v-divider></v-divider> -->
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.threeofakind"
-              label="3 gleiche"
-              placeholder="Alle Augen"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.fourofakind"
-              label="4 gleiche"
-              placeholder="Alle Augen"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.fullhouse"
-              label="Full House"
-              placeholder="25"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.smallstraight"
-              label="Kleine Straße"
-              placeholder="30"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.largestraight"
-              label="Große Straße"
-              placeholder="40"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.chance"
-              label="Chance"
-              placeholder="Alle Augen"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              v-model.number="card.yahtzee"
-              label="Kniffel"
-              placeholder="50"
-              type="number"
-              pattern="[0-9]*"
-              @change="pushData"
-            ></v-text-field>
-          </v-list-item>
-          <!-- <v-divider></v-divider> -->
-          <v-list-item>Summe unten: {{sumLower(card)}}</v-list-item>
-          <!-- <v-divider></v-divider> -->
-          <v-list-item>Gesamt: {{sumTotal(card)}}</v-list-item>
-          <!-- <v-divider></v-divider> -->
-        </v-list>
-        <!-- </v-card> -->
+        <v-card>
+          <v-list>
+            <v-list-item>
+              <v-text-field
+                v-model="card.player"
+                label="Name"
+                :single-line="true"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.one"
+                label="1er"
+                placeholder="1, 2, 3, 4, 5, 6"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.two"
+                label="2er"
+                placeholder="2, 4, 6, 8, 10"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.three"
+                label="3er"
+                placeholder="3, 6, 9, 12, 15"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.four"
+                label="4er"
+                placeholder="4, 8, 12, 16, 20"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.five"
+                label="5er"
+                placeholder="5, 10, 15, 20, 25"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.six"
+                label="6er"
+                placeholder="6, 12, 18, 24, 30"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <!-- <v-divider></v-divider> -->
+            <v-list-item>Oben: {{sumUpper(card)}}</v-list-item>
+            <v-list-item>Bonus: {{bonusUpper(card)}}</v-list-item>
+            <!-- <v-divider></v-divider> -->
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.threeofakind"
+                label="3 gleiche"
+                placeholder="Alle Augen"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.fourofakind"
+                label="4 gleiche"
+                placeholder="Alle Augen"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.fullhouse"
+                label="Full House"
+                placeholder="25"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.smallstraight"
+                label="Kleine Straße"
+                placeholder="30"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.largestraight"
+                label="Große Straße"
+                placeholder="40"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.chance"
+                label="Chance"
+                placeholder="Alle Augen"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                v-model.number="card.yahtzee"
+                label="Kniffel"
+                placeholder="50"
+                type="number"
+                pattern="[0-9]*"
+                @change="pushData"
+              ></v-text-field>
+            </v-list-item>
+            <!-- <v-divider></v-divider> -->
+            <v-list-item>Unten: {{sumLower(card)}}</v-list-item>
+            <!-- <v-divider></v-divider> -->
+            <v-list-item>Gesamt: {{sumTotal(card)}}</v-list-item>
+            <!-- <v-divider></v-divider> -->
+          </v-list>
+
+          <v-card-actions justify="end">
+            <v-col class="text-center">
+              <v-btn fab dark x-small color="blue" @click="clear(card)">
+                <v-icon dark>mdi-window-close</v-icon>
+              </v-btn>
+            </v-col>
+            <!-- <v-col class="text-right"> -->
+            <v-col class="text-center">
+              <!-- <v-tooltip bottom> -->
+              <!-- <template v-slot:activator="{ on }"> -->
+              <v-btn fab dark x-small color="red" @click="remove(card.id)">
+                <v-icon dark>mdi-trash-can</v-icon>
+              </v-btn>
+              <!-- </template> -->
+              <!-- <span>Tooltip</span> -->
+              <!-- </v-tooltip> -->
+            </v-col>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -167,6 +181,7 @@
 
 <script>
 import rooms from "@/services/rooms";
+import { sumUpper, bonusUpper, sumLower, sumTotal, clearCard } from "@/data/card";
 
 export default {
   name: "scoreCards",
@@ -177,44 +192,33 @@ export default {
     roomName: String,
     roomData: Object
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   methods: {
-    intOrZero(value) {
-      const int = parseInt(value);
-      return isNaN(int) ? 0 : int;
-    },
     sumUpper(card) {
-      return (
-        this.intOrZero(card.one) +
-        this.intOrZero(card.two) +
-        this.intOrZero(card.three) +
-        this.intOrZero(card.four) +
-        this.intOrZero(card.five) +
-        this.intOrZero(card.six)
-      );
+      return sumUpper(card);
     },
     bonusUpper(card) {
-      return this.sumUpper(card) >= 63 ? 35 : 0;
+      return bonusUpper(card);
     },
     sumLower(card) {
-      return (
-        this.intOrZero(card.threeofakind) +
-        this.intOrZero(card.fourofakind) +
-        this.intOrZero(card.fullhouse) +
-        this.intOrZero(card.smallstraight) +
-        this.intOrZero(card.largestraight) +
-        this.intOrZero(card.chance) +
-        this.intOrZero(card.yahtzee)
-      );
+      return sumLower(card);
     },
     sumTotal(card) {
-      return this.sumUpper(card) + this.bonusUpper(card) + this.sumLower(card);
+      return sumTotal(card);
     },
     async pushData() {
       console.log("ScoreCards.pushData");
       await rooms.updateRoom(this.roomName, this.roomData);
+    },
+    remove(id) {
+      this.roomData.cards = this.roomData.cards.filter(card => card.id !== id);
+      this.pushData();
+    },
+    clear(card) {
+      clearCard(card);
+      this.pushData();
     }
+
   }
 };
 </script>

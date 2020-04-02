@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
 import firebase from "firebase/app"
 import "firebase/firestore"
 import config from "@/config"
-import ScoreCard from "@/data/ScoreCard"
-// import { scoreCardConverter, scoreCardsConverter } from "@/data/converter"
 
 async function init() {
     console.log("core.init");
