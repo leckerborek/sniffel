@@ -1,6 +1,6 @@
 <template>
   <v-container class="fill-height">
-    <v-overlay :opacity="0.2" :value="roomData === undefined">
+    <v-overlay :opacity="0.2" :value="loading">
       <v-progress-circular indeterminate :size="70" :width="7" color="blue"></v-progress-circular>
     </v-overlay>
     <!-- <v-container v-if="roomData !== undefined"> -->
@@ -21,7 +21,7 @@
         @error="onError"
       ></webrtc>
     </v-row>
-    <v-row align="baseline" justify="space-around">
+    <v-row align="baseline" justify="space-around" v-if="!loading">
       <v-btn @click="newPlayer">Neuer Spieler</v-btn>
       <v-btn @click="onJoin">Join Video</v-btn>
       <v-btn @click="onLeave">Leave</v-btn>
@@ -59,6 +59,11 @@ export default {
     roomData: undefined,
     draggable: false
   }),
+  computed: {
+    loading() {
+      return this.roomData === undefined;
+    }
+  },
   methods: {
     async newPlayer() {
       this.roomData.cards.push(card.create());

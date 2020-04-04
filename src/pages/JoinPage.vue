@@ -1,10 +1,11 @@
 <template>
-  <v-container class="fill-height background">
-    <v-row justify="center">
+  <v-container class="fill-height fluid">
+    <span class="background"></span>
+    <v-row align="center" justify="center">
       <v-card>
         <v-list>
           <v-list-item>
-            <h2>where's da party at?!</h2>
+            <v-list-item-title class="headline mb-1">where's da party at?!</v-list-item-title>
           </v-list-item>
           <v-list-item>
             <v-text-field label="Raum" v-model="roomName" />
@@ -12,7 +13,6 @@
           <v-list-item>
             <v-btn :block="true" @click="join">Join</v-btn>
           </v-list-item>
-          <!-- "https://media.giphy.com/media/3oGRFlpAW4sIHA02NW/giphy.gif" -->
         </v-list>
       </v-card>
     </v-row>
@@ -27,9 +27,9 @@
   top: 0;
   left: 0;
   background: url("https://media.giphy.com/media/PkL2FAFQYUmPWYrXEg/giphy.gif")
-    no-repeat center center;
+    center center;
   background-size: cover;
-  transform: scale(1.5);
+  /* transform: scale(1.5); */
 }
 </style>
 

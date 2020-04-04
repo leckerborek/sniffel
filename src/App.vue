@@ -35,7 +35,6 @@
 
     <v-content>
       <router-view />
-      <!-- <room room-name="public-room"></room> -->
     </v-content>
     <v-footer color="indigo" app>
       <span class="white--text">a #stayathome project</span>
