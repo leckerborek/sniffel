@@ -18,7 +18,7 @@
               <v-text-field
                 v-model.number="card.one"
                 label="1er"
-                placeholder="1, 2, 3, 4, 5, 6"
+                placeholder="1, 2, 3, 4, 5"
                 type="number"
                 pattern="[0-9]*"
                 @change="pushData"
