@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row no-gutters>
+    <v-row no-gutters v-if="roomData !== undefined">
       <!-- https://vuejs.org/v2/guide/list.html -->
       <v-col v-for="card in roomData.cards" :key="card.id">
         <!-- <v-card outlined title> -->
@@ -140,8 +140,8 @@
             </v-list-item>
             <v-list-item>
               <v-text-field
-                v-model.number="card.yahtzee"
-                label="Kniffel"
+                v-model.number="card.sniffel"
+                label="Sniffel"
                 placeholder="50"
                 type="number"
                 pattern="[0-9]*"
@@ -181,7 +181,7 @@
 
 <script>
 import rooms from "@/services/rooms";
-import { sumUpper, bonusUpper, sumLower, sumTotal, clearCard } from "@/data/card";
+import card from "@/data/card";
 
 export default {
   name: "scoreCards",
@@ -194,17 +194,17 @@ export default {
   },
   data: () => ({}),
   methods: {
-    sumUpper(card) {
-      return sumUpper(card);
+    sumUpper(c) {
+      return card.sumUpper(c);
     },
-    bonusUpper(card) {
-      return bonusUpper(card);
+    bonusUpper(c) {
+      return card.bonusUpper(c);
     },
-    sumLower(card) {
-      return sumLower(card);
+    sumLower(c) {
+      return card.sumLower(c);
     },
-    sumTotal(card) {
-      return sumTotal(card);
+    sumTotal(c) {
+      return card.sumTotal(c);
     },
     async pushData() {
       console.log("ScoreCards.pushData");
@@ -214,9 +214,9 @@ export default {
       this.roomData.cards = this.roomData.cards.filter(card => card.id !== id);
       this.pushData();
     },
-    clear(card) {
-      clearCard(card);
-      this.pushData();
+    async clear(c) {
+      card.clear(c);
+      await this.pushData();
     }
 
   }

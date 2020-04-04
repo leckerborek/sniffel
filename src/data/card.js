@@ -1,43 +1,41 @@
 import { getName } from "ikea-name-generator";
 import { v4 as uuidv4 } from "uuid";
 
-function createCard() {
-    const ikeaName = getName(true);
-    // undefined is not supperted by firebase
-    return {
-        player: ikeaName.charAt(0).toUpperCase() + ikeaName.slice(1),
-        // unique id is required by v-for and other stuff
-        id: uuidv4(),
-        one: null,
-        two: null,
-        three: null,
-        four: null,
-        five: null,
-        six: null,
-        threeofakind: null,
-        fourofakind: null,
-        fullhouse: null,
-        smallstraight: null,
-        largestraight: null,
-        chance: null,
-        yahtzee: null
-    };
+const upperProps = ["one", "two", "three", "four", "five", "six"];
+const lowerProps = ["threeofakind", "fourofakind", "fullhouse", "smallstraight", "largestraight", "chance", "sniffel"];
+const allProps = upperProps.concat(lowerProps);
+const displayName = {
+    one: "1-er",
+    two: "2-er",
+    three: "3-er",
+    four: "4-er",
+    five: "5-er",
+    six: "6-er",
+    threeofakind: "3 gleiche",
+    fourofakind: "4 gleiche",
+    fullhouse: "Full House",
+    smallstraight: "Kleine Straße",
+    largestraight: "Große Straße",
+    chance: "Chance",
+    sniffel: "Sniffel"
 }
 
-function clearCard(card) {
-    card.one = null;
-    card.two = null;
-    card.three = null;
-    card.four = null;
-    card.five = null;
-    card.six = null;
-    card.threeofakind = null;
-    card.fourofakind = null;
-    card.fullhouse = null;
-    card.smallstraight = null;
-    card.largestraight = null;
-    card.chance = null;
-    card.yahtzee = null
+function create() {
+    const ikeaName = getName(true);
+    const card = {
+        player: ikeaName.charAt(0).toUpperCase() + ikeaName.slice(1),
+        // unique id is required by v-for and other stuff
+        id: uuidv4()
+    }
+    // undefined is not supperted by firebase
+    upperProps.forEach(prop => card[prop] = null);
+    lowerProps.forEach(prop => card[prop] = null);
+    return card;
+}
+
+function clear(card) {
+    upperProps.forEach(prop => card[prop] = null);
+    lowerProps.forEach(prop => card[prop] = null);
 }
 
 function intOrZero(value) {
@@ -46,14 +44,7 @@ function intOrZero(value) {
 }
 
 function sumUpper(card) {
-    return (
-        intOrZero(card.one) +
-        intOrZero(card.two) +
-        intOrZero(card.three) +
-        intOrZero(card.four) +
-        intOrZero(card.five) +
-        intOrZero(card.six)
-    );
+    return upperProps.map(prop => intOrZero(card[prop])).reduce((a, b) => a + b)
 }
 
 function bonusUpper(card) {
@@ -61,26 +52,37 @@ function bonusUpper(card) {
 }
 
 function sumLower(card) {
-    return (
-        intOrZero(card.threeofakind) +
-        intOrZero(card.fourofakind) +
-        intOrZero(card.fullhouse) +
-        intOrZero(card.smallstraight) +
-        intOrZero(card.largestraight) +
-        intOrZero(card.chance) +
-        intOrZero(card.yahtzee)
-    );
+    return lowerProps.map(prop => intOrZero(card[prop])).reduce((a, b) => a + b)
 }
 
 function sumTotal(card) {
     return sumUpper(card) + bonusUpper(card) + sumLower(card);
 }
 
-export {
-    createCard,
-    clearCard,
+function diff(left, right) {
+    if (left === undefined || right === undefined) {
+        return undefined;
+    }
+
+    if (left.player !== right.player) {
+        return `${left.player} ist jetzt unter dem Namen ${right.player} bekannt.`;
+    }
+
+    for (let prop of allProps) {
+        if (left[prop] !== right[prop] && right[prop] !== undefined) {
+            return `${right.player} hat für ${displayName[prop]} eine ${right[prop]} eingetragen.`
+        }
+    }
+
+    return undefined;
+}
+
+export default {
+    create,
+    clear,
     sumUpper,
     bonusUpper,
     sumLower,
-    sumTotal
+    sumTotal,
+    diff
 }

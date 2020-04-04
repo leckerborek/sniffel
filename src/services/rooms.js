@@ -1,17 +1,17 @@
 import firebase from "firebase/app"
 import "firebase/firestore"
 import { v4 as uuidv4 } from "uuid";
-import { createCard } from "@/data/card"
 import snackbear from "@/services/snackbear"
+import card from "@/data/card";
 
 const collection = "rooms";
 
 async function createDefaultRoom(roomName) {
     const data = {
         cards: [
-            createCard(),
-            createCard(),
-            createCard()
+            card.create(),
+            card.create(),
+            card.create()
         ]
     };
 
@@ -80,8 +80,48 @@ async function updateRoom(roomName, data) {
     }
 }
 
+function diff(left, right) {
+    if (left === undefined || right === undefined) {
+        return undefined;
+    }
+    
+    // spieler hinzugefügt
+    if (left.cards.length < right.cards.length) {
+        for (let rightCard of right.cards) {
+            const leftCard = left.cards.find(leftCard => leftCard.id === rightCard.id);
+            if (leftCard === undefined) {
+                return `${rightCard.player} wurde dem Spiel hinzugefügt.`;
+            }
+        }
+    }
+
+    // spieler entfernt
+    if (left.cards.length > right.cards.length) {
+        for (let leftCard of left.cards) {
+            const rightCard = right.cards.find(rightCard => rightCard.id === leftCard.id);
+            if (rightCard === undefined) {
+                return`${leftCard.player} hat das Spiel verlassen.`;
+            }
+        }
+    }
+
+    // name geändert oder punktestand eingetragen
+    for (let leftCard of left.cards) {
+        const rightCard = right.cards.find(rightCard => rightCard.id === leftCard.id);
+        if (rightCard !== undefined) {
+            const diffText = card.diff(leftCard, rightCard);
+            if (diffText !== undefined) {
+                return diffText;
+            }
+        }
+    }
+
+    return undefined;
+}
+
 export default {
     initRoom,
     observeRoom,
-    updateRoom
+    updateRoom,
+    diff
 }

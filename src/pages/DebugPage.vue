@@ -23,8 +23,6 @@
       <v-btn @click="onJoin">Join Video</v-btn>
       <v-btn @click="onLeave">Leave</v-btn>
     </v-row>
-    <v-btn dark @click="snackbar = true">Open Snackbar</v-btn>
-    <v-snackbar v-model="snackbar" color="info" :timeout="5000">I am Snackbar!</v-snackbar>
   </v-container>
 </template>
 
@@ -33,7 +31,6 @@
 
 <script>
 /* eslint-disable no-debugger */
-import { getName } from "ikea-name-generator";
 import webrtc from "../components/webrtc.vue";
 export default {
   name: "DebugPage",
@@ -41,11 +38,8 @@ export default {
     webrtc
   },
   data: () => ({
-    snackbar: false
   }),
   created() {
-    // debugger;
-    console.log(getName(false));
   },
   methods: {
     onJoin() {

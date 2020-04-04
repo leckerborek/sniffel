@@ -1,5 +1,9 @@
 <template>
   <v-container class="fill-height">
+    <v-overlay :opacity="0.2" :value="roomData === undefined">
+      <v-progress-circular indeterminate :size="70" :width="7" color="blue"></v-progress-circular>
+    </v-overlay>
+    <!-- <v-container v-if="roomData !== undefined"> -->
     <v-row align="start" justify="space-around">
       <h2>Willkommen in {{roomName}} 👋</h2>
     </v-row>
@@ -17,28 +21,24 @@
         @error="onError"
       ></webrtc>
     </v-row>
-
-    <!-- <v-row align="stretch">
-        <div style="width:100px;height:100px;background:orange" />
-    </v-row>-->
-
     <v-row align="baseline" justify="space-around">
       <v-btn @click="newPlayer">Neuer Spieler</v-btn>
       <v-btn @click="onJoin">Join Video</v-btn>
       <v-btn @click="onLeave">Leave</v-btn>
       <v-btn @click="onShareScreen">Share Screen</v-btn>
-      <v-switch v-model="draggable" :label="'Draggable Videos'"></v-switch>
     </v-row>
-    <!-- </v-layout> -->
+    <!-- </v-container> -->
   </v-container>
 </template>
 
+<style scoped>
+</style>
+
 <script>
-import util from "@/services/util";
 import rooms from "@/services/rooms";
 import ScoreCards from "@/components/ScoreCards";
 import webrtc from "@/components/webrtc";
-import { createCard } from "@/data/card";
+import card from "@/data/card";
 import snackbear from "@/services/snackbear";
 
 export default {
@@ -56,18 +56,21 @@ export default {
     roomName: String
   },
   data: () => ({
-    roomData: {},
+    roomData: undefined,
     draggable: false
   }),
   methods: {
     async newPlayer() {
-      this.roomData.cards.push(createCard());
+      this.roomData.cards.push(card.create());
       await rooms.updateRoom(this.roomName, this.roomData);
     },
-    onDataChanged(data) {
-      console.log("room.onDataChanged", data);
-      snackbear.info("Neue Daten yo!");
-      this.roomData = data;
+    onDataChanged(newData) {
+      console.log("room.onDataChanged", newData);
+      const info = rooms.diff(this.roomData, newData);
+      if (info !== undefined) {
+        snackbear.info(info);
+      }
+      this.roomData = newData;
     },
     onJoin() {
       this.$refs.webrtc.join();
@@ -86,25 +89,6 @@ export default {
     },
     joinedRoom(videoId) {
       console.log(`Share started with ID ${videoId}`);
-
-      if (this.draggable) {
-        setTimeout(() => this.makeVideoDraggable(videoId), 2000);
-      }
-    },
-
-    makeVideoDraggable(id) {
-      const video = document.getElementById(id);
-      if (video === null) {
-        console.error("Could not find video element.");
-        return;
-      }
-
-      console.log("Found video element.", video);
-      const videoDiv = video.parentElement;
-      videoDiv.style.background = "transparent";
-      videoDiv.style.position = "absolute";
-      videoDiv.style.cursor = "move";
-      util.makeElementDraggable(videoDiv);
     }
   }
 };
