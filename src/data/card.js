@@ -1,10 +1,13 @@
 import { getName } from "ikea-name-generator";
+import { v4 as uuidv4 } from "uuid";
 
 function createCard() {
     const ikeaName = getName(true);
     // undefined is not supperted by firebase
     return {
         player: ikeaName.charAt(0).toUpperCase() + ikeaName.slice(1),
+        // unique id is required by v-for and other stuff
+        id: uuidv4(),
         one: null,
         two: null,
         three: null,

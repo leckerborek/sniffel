@@ -50,9 +50,14 @@ async function observeRoom(roomName, callback) {
         .onSnapshot(function (doc) {
             console.log(`rooms.observeRoom(${roomName})`, doc.data());
             const data = doc.data();
+            // just a fallback for old data without id
             if (Array.isArray(data.cards)) {
-                // unique id is required by v-for
-                data.cards = data.cards.map(card => ({ ...card, id: uuidv4() }));
+                data.cards = data.cards.map(card => {
+                    if (card.id === undefined) {
+                        return { ...card, id: uuidv4() };
+                    }
+                    return card;
+                });
             }
             callback(data);
         });
