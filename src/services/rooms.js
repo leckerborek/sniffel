@@ -44,11 +44,16 @@ async function initRoom(roomName) {
 }
 
 async function observeRoom(roomName, callback) {
-    firebase.firestore()
+    if (this.unsubscribe !== undefined) {
+        console.log("Unsubscribing from previous snapshot...");
+        this.unsubscribe();
+    }
+
+    this.unsubscribe = firebase.firestore()
         .collection(collection)
         .doc(roomName)
         .onSnapshot(function (doc) {
-            console.log(`rooms.observeRoom(${roomName})`, doc.data());
+            console.log(`rooms.observeRoom.onSnapshot(${roomName})`, doc.data());
             const data = doc.data();
             // just a fallback for old data without id
             if (Array.isArray(data.cards)) {
