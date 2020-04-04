@@ -39,6 +39,7 @@ import rooms from "@/services/rooms";
 import ScoreCards from "@/components/ScoreCards";
 import webrtc from "@/components/webrtc";
 import { createCard } from "@/data/card";
+import snackbear from "@/services/snackbear";
 
 export default {
   name: "RoomPage",
@@ -65,6 +66,7 @@ export default {
     },
     onDataChanged(data) {
       console.log("room.onDataChanged", data);
+      snackbear.info("Neue Daten yo!");
       this.roomData = data;
     },
     onJoin() {

@@ -1,8 +1,9 @@
-/* eslint-disable no-unused-vars */
 import firebase from "firebase/app"
 import "firebase/firestore"
 import { v4 as uuidv4 } from "uuid";
 import { createCard } from "@/data/card"
+import snackbear from "@/services/snackbear"
+
 const collection = "rooms";
 
 async function createDefaultRoom(roomName) {
@@ -18,15 +19,13 @@ async function createDefaultRoom(roomName) {
         const docRef = await firebase.firestore()
             .collection(collection)
             .doc(roomName)
-            // .withConverter(scoreCardsConverter)
             .set(data);
 
-        console.log("Document written (undefined is ok): ", docRef);
+        console.log("rooms.createDefaultRoom - New document created (undefined is ok)", docRef);
     } catch (error) {
-        console.error("Error adding document: ", error);
+        console.error("rooms.createDefaultRoom - Could not add new docuent", error);
     }
 }
-
 
 async function initRoom(roomName) {
     const snapshot = await firebase.firestore()
@@ -36,16 +35,16 @@ async function initRoom(roomName) {
         .get();
 
     if (snapshot.exists) {
-        console.log(`Room ${roomName} already exists`);
+        console.log(`rooms.initRoom - ${roomName} already exists`);
     } else {
-        console.log(`Room ${roomName} could not be found, creating...`);
+        console.log(`rooms.initRoom - ${roomName} could not be found, creating...`);
         await createDefaultRoom(roomName);
     }
 }
 
 async function observeRoom(roomName, callback) {
     if (this.unsubscribe !== undefined) {
-        console.log("Unsubscribing from previous snapshot...");
+        console.log("rooms.observeRoom - Unsubscribing from previous snapshot...");
         this.unsubscribe();
     }
 
@@ -53,7 +52,7 @@ async function observeRoom(roomName, callback) {
         .collection(collection)
         .doc(roomName)
         .onSnapshot(function (doc) {
-            console.log(`rooms.observeRoom.onSnapshot(${roomName})`, doc.data());
+            console.log("rooms.observeRoom.onSnapshot", doc.data());
             const data = doc.data();
             // just a fallback for old data without id
             if (Array.isArray(data.cards)) {
@@ -74,9 +73,10 @@ async function updateRoom(roomName, data) {
             .collection(collection)
             .doc(roomName)
             .set(data);
-        console.log("New data pushed", result)
+        console.log("rooms.updateRoom", result)
     } catch (error) {
-        console.error("Could not push new data", error);
+        console.error("rooms.updateRoom", error);
+        snackbear.error("Deine Änderungen konnten nicht gespeichert werden.");
     }
 }
 

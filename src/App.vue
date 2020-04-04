@@ -40,22 +40,30 @@
     <v-footer color="indigo" app>
       <span class="white--text">a #stayathome project</span>
     </v-footer>
+    <v-snackbar v-model="snackVisible" color="info" :timeout="5000">{{snackText}}</v-snackbar>
   </v-app>
 </template>
 
 <script>
 import core from "@/services/core";
+import snackbear from "@/services/snackbear";
 
 export default {
   async created() {
     console.log("app.created");
     await core.init();
+    await snackbear.init((text) => {
+      this.snackText = text;
+      this.snackVisible = true;
+    });
   },
   props: {
     source: String
   },
   data: () => ({
-    drawer: null
+    drawer: null,
+    snackVisible: false,
+    snackText: ""
   }),
   methods: {},
   components: {}
