@@ -33,7 +33,7 @@ import Moveable from "vue-moveable";
 
 require("adapterjs");
 export default {
-  name: "webrtc",
+  name: "WebRtc",
   components: {
     RTCMultiConnection,
     Moveable

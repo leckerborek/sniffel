@@ -60,7 +60,7 @@ export default {
     source: String
   },
   data: () => ({
-    drawer: null,
+    drawer: false,
     snackVisible: false,
     snackText: ""
   }),

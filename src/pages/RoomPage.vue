@@ -1,15 +1,14 @@
 <template>
   <v-container class="fill-height">
     <v-overlay :opacity="0.2" :value="loading">
-      <v-progress-circular indeterminate :size="70" :width="7" color="blue"></v-progress-circular>
+      <v-progress-circular indeterminate :size="115" :width="8" color="blue"></v-progress-circular>
     </v-overlay>
-    <!-- <v-container v-if="roomData !== undefined"> -->
     <v-row align="start" justify="space-around">
       <h2>Willkommen in {{roomName}} 👋</h2>
     </v-row>
     <score-cards :room-name="roomName" :room-data="roomData"></score-cards>
     <v-row align="stretch">
-      <webrtc
+      <web-rtc
         ref="webrtc"
         width="100%"
         :roomId="roomName"
@@ -19,15 +18,31 @@
         v-on:share-started="logEvent"
         v-on:share-stopped="logEvent"
         @error="onError"
-      ></webrtc>
+      ></web-rtc>
+      <v-row justify="space-between" v-if="!loading">
+        <v-col>
+          <v-card>
+            <v-card-title>Video-Chat</v-card-title>
+            <v-card-subtitle>Sniffle verwendet Alientechnologie und WebRTC um dir eine unvergessliche Live Chat Erfahrung zu bieten - gönn' dir reichlich und lade die Seite einfach neu, wenn mal etwas nicht funktioniert.</v-card-subtitle>
+            <v-card-actions>
+              <v-btn text @click="onJoin">Join Video</v-btn>
+              <v-btn text @click="onLeave">Leave</v-btn>
+              <v-btn text @click="onShareScreen">Share Screen</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card>
+            <v-card-title>Optionen</v-card-title>
+            <v-card-subtitle>Wähle aus diesen reichhaltigen Optionen und mache Sniffel zu deinem ganz persönlichen Erlebnis!</v-card-subtitle>
+            <v-card-actions>
+              <v-btn text @click="newPlayer">Neuer Spieler</v-btn>
+              <v-btn text @click="clearCards">Punkte löschen</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-row>
-    <v-row align="baseline" justify="space-around" v-if="!loading">
-      <v-btn @click="newPlayer">Neuer Spieler</v-btn>
-      <v-btn @click="onJoin">Join Video</v-btn>
-      <v-btn @click="onLeave">Leave</v-btn>
-      <v-btn @click="onShareScreen">Share Screen</v-btn>
-    </v-row>
-    <!-- </v-container> -->
   </v-container>
 </template>
 
@@ -35,17 +50,17 @@
 </style>
 
 <script>
-import rooms from "@/services/rooms";
 import ScoreCards from "@/components/ScoreCards";
-import webrtc from "@/components/webrtc";
-import card from "@/data/card";
+import WebRtc from "@/components/WebRtc";
+import rooms from "@/services/rooms";
+import card from "@/services/card";
 import snackbear from "@/services/snackbear";
 
 export default {
   name: "RoomPage",
   components: {
     ScoreCards,
-    webrtc
+    WebRtc
   },
   async created() {
     console.log("room.created");
@@ -56,8 +71,7 @@ export default {
     roomName: String
   },
   data: () => ({
-    roomData: undefined,
-    draggable: false
+    roomData: undefined
   }),
   computed: {
     loading() {
@@ -67,6 +81,10 @@ export default {
   methods: {
     async newPlayer() {
       this.roomData.cards.push(card.create());
+      await rooms.updateRoom(this.roomName, this.roomData);
+    },
+    async clearCards() {
+      this.roomData.cards.forEach(c => card.clear(c));
       await rooms.updateRoom(this.roomName, this.roomData);
     },
     onDataChanged(newData) {

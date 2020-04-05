@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row no-gutters v-if="roomData !== undefined">
+    <v-row no-gutters justify="space-between" v-if="roomData !== undefined">
       <!-- https://vuejs.org/v2/guide/list.html -->
       <v-col v-for="card in roomData.cards" :key="card.id">
         <!-- <v-card outlined title> -->
@@ -156,21 +156,10 @@
           </v-list>
 
           <v-card-actions justify="end">
-            <v-col class="text-center">
-              <v-btn fab dark x-small color="blue" @click="clear(card)">
-                <v-icon dark>mdi-window-close</v-icon>
-              </v-btn>
-            </v-col>
-            <!-- <v-col class="text-right"> -->
-            <v-col class="text-center">
-              <!-- <v-tooltip bottom> -->
-              <!-- <template v-slot:activator="{ on }"> -->
-              <v-btn fab dark x-small color="red" @click="remove(card.id)">
+            <v-col class="text-right">
+              <v-btn fab dark x-small color="red" @click="remove(card)">
                 <v-icon dark>mdi-trash-can</v-icon>
               </v-btn>
-              <!-- </template> -->
-              <!-- <span>Tooltip</span> -->
-              <!-- </v-tooltip> -->
             </v-col>
           </v-card-actions>
         </v-card>
@@ -181,10 +170,10 @@
 
 <script>
 import rooms from "@/services/rooms";
-import card from "@/data/card";
+import card from "@/services/card";
 
 export default {
-  name: "scoreCards",
+  name: "ScoreCards",
   async created() {
     console.log("scoreCards.created");
   },
@@ -210,15 +199,10 @@ export default {
       console.log("ScoreCards.pushData");
       await rooms.updateRoom(this.roomName, this.roomData);
     },
-    remove(id) {
-      this.roomData.cards = this.roomData.cards.filter(card => card.id !== id);
+    remove(c) {
+      this.roomData.cards = this.roomData.cards.filter(card => card.id !== c.id);
       this.pushData();
-    },
-    async clear(c) {
-      card.clear(c);
-      await this.pushData();
     }
-
   }
 };
 </script>

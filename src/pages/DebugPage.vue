@@ -6,8 +6,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-btn></v-btn>
-      <webrtc
+      <web-rtc
         ref="webrtc"
         width="100%"
         roomId="the-snifflers"
@@ -17,7 +16,7 @@
         v-on:share-started="logEvent"
         v-on:share-stopped="logEvent"
         @error="onError"
-      ></webrtc>
+      ></web-rtc>
     </v-row>
     <v-row align="baseline" justify="space-around">
       <v-btn @click="onJoin">Join Video</v-btn>
@@ -31,11 +30,12 @@
 
 <script>
 /* eslint-disable no-debugger */
-import webrtc from "../components/webrtc.vue";
+import WebRtc from "../components/WebRtc";
+
 export default {
   name: "DebugPage",
   components: {
-    webrtc
+    WebRtc
   },
   data: () => ({
   }),

@@ -2,7 +2,7 @@ import firebase from "firebase/app"
 import "firebase/firestore"
 import { v4 as uuidv4 } from "uuid";
 import snackbear from "@/services/snackbear"
-import card from "@/data/card";
+import card from "@/services/card";
 
 const collection = "rooms";
 

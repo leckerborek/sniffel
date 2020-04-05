@@ -12,15 +12,18 @@ $ firebase init
 # with firestore, functions, hosting, storage, (emulators)
 ```
 
+### Manual Deployment
+```
+$ npm run build
+$ firebase deploy
+```
+
 ### Generate CI Token
 ```
 $ firebase login:ci
 ```
 
-## Project setup
-```
-npm install
-```
+## VueJS
 
 ### Compiles and hot-reloads for development
 ```
