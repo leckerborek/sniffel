@@ -1,24 +1,86 @@
 import { getName } from "ikea-name-generator";
 import { v4 as uuidv4 } from "uuid";
 
-const upperProps = ["one", "two", "three", "four", "five", "six"];
-const lowerProps = ["threeofakind", "fourofakind", "fullhouse", "smallstraight", "largestraight", "chance", "sniffel"];
-const allProps = upperProps.concat(lowerProps);
-const displayName = {
-    one: "1-er",
-    two: "2-er",
-    three: "3-er",
-    four: "4-er",
-    five: "5-er",
-    six: "6-er",
-    threeofakind: "3 gleiche",
-    fourofakind: "4 gleiche",
-    fullhouse: "Full House",
-    smallstraight: "Kleine Straße",
-    largestraight: "Große Straße",
-    chance: "Chance",
-    sniffel: "Sniffel"
-}
+const fields = [
+    {
+        key: "one",
+        name: "1-er",
+        hint: "1, 2, 3, 4, 5",
+        upper: true
+    },
+    {
+        key: "two",
+        name: "2-er",
+        hint: "2, 4, 6, 8, 10",
+        upper: true
+    },
+    {
+        key: "three",
+        name: "3-er",
+        hint: "3, 6, 9, 12, 15",
+        upper: true
+    },
+    {
+        key: "four",
+        name: "4-er",
+        hint: "4, 8, 12, 16, 20",
+        upper: true
+    },
+    {
+        key: "five",
+        name: "5-er",
+        hint: "5, 10, 15, 20, 25",
+        upper: true
+    },
+    {
+        key: "six",
+        name: "1-er",
+        hint: "6, 12, 18, 24, 30",
+        upper: true
+    },
+    {
+        key: "threeofakind",
+        name: "3 gleiche",
+        hint: "Alle Augen",
+        upper: false
+    },
+    {
+        key: "fourofakind",
+        name: "4 gleiche",
+        hint: "Alle Augen",
+        upper: false
+    },
+    {
+        key: "fullhouse",
+        name: "Full House",
+        hint: "25",
+        upper: false
+    },
+    {
+        key: "smallstraight",
+        name: "Kleine Straße",
+        hint: "30",
+        upper: false
+    },
+    {
+        key: "largestraight",
+        name: "Große Straße",
+        hint: "40",
+        upper: false
+    },
+    {
+        key: "chance",
+        name: "Chance",
+        hint: "Alle Augen",
+        upper: false
+    },
+    {
+        key: "sniffel",
+        name: "Sniffel",
+        hint: "50",
+        upper: false
+    }
+]
 
 function create() {
     const ikeaName = getName(true);
@@ -28,14 +90,12 @@ function create() {
         id: uuidv4()
     }
     // undefined is not supperted by firebase
-    upperProps.forEach(prop => card[prop] = null);
-    lowerProps.forEach(prop => card[prop] = null);
+    fields.map(field => field.key).forEach(key => card[key] = null);
     return card;
 }
 
 function clear(card) {
-    upperProps.forEach(prop => card[prop] = null);
-    lowerProps.forEach(prop => card[prop] = null);
+    fields.map(field => field.key).forEach(key => card[key] = null);
 }
 
 function intOrZero(value) {
@@ -44,7 +104,10 @@ function intOrZero(value) {
 }
 
 function sumUpper(card) {
-    return upperProps.map(prop => intOrZero(card[prop])).reduce((a, b) => a + b)
+    return fields
+        .filter(field => field.upper)
+        .map(field => intOrZero(card[field.key]))
+        .reduce((a, b) => a + b);
 }
 
 function bonusUpper(card) {
@@ -52,7 +115,10 @@ function bonusUpper(card) {
 }
 
 function sumLower(card) {
-    return lowerProps.map(prop => intOrZero(card[prop])).reduce((a, b) => a + b)
+    return fields
+        .filter(field => !field.upper)
+        .map(field => intOrZero(card[field.key]))
+        .reduce((a, b) => a + b);
 }
 
 function sumTotal(card) {
@@ -68,9 +134,9 @@ function diff(left, right) {
         return `${left.player} ist jetzt unter dem Namen ${right.player} bekannt.`;
     }
 
-    for (let prop of allProps) {
-        if (left[prop] !== right[prop] && right[prop] !== undefined) {
-            return `${right.player} hat für ${displayName[prop]} eine ${right[prop]} eingetragen.`
+    for (let field of fields) {
+        if (left[field.key] !== right[field.key] && right[field.key] !== undefined) {
+            return `${right.player} hat für ${field.name} eine ${right[field.key]} eingetragen.`
         }
     }
 
@@ -84,5 +150,6 @@ export default {
     bonusUpper,
     sumLower,
     sumTotal,
-    diff
+    diff,
+    fields
 }

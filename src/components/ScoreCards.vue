@@ -173,7 +173,7 @@ import rooms from "@/services/rooms";
 import card from "@/services/card";
 
 export default {
-  name: "ScoreCards",
+  name: "scoreCards",
   async created() {
     console.log("scoreCards.created");
   },

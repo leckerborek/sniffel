@@ -30,7 +30,7 @@
 
 <script>
 /* eslint-disable no-debugger */
-import WebRtc from "../components/WebRtc";
+import WebRtc from "@/components/WebRtcFix";
 
 export default {
   name: "DebugPage",

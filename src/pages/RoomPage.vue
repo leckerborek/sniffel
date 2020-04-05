@@ -37,7 +37,7 @@
             <v-card-subtitle>Wähle aus diesen reichhaltigen Optionen und mache Sniffel zu deinem ganz persönlichen Erlebnis!</v-card-subtitle>
             <v-card-actions>
               <v-btn text @click="newPlayer">Neuer Spieler</v-btn>
-              <v-btn text @click="clearCards">Punkte löschen</v-btn>
+              <v-btn text @click="clearCards">Alle Punkte löschen</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -51,7 +51,7 @@
 
 <script>
 import ScoreCards from "@/components/ScoreCards";
-import WebRtc from "@/components/WebRtc";
+import WebRtc from "@/components/WebRtcFix";
 import rooms from "@/services/rooms";
 import card from "@/services/card";
 import snackbear from "@/services/snackbear";
