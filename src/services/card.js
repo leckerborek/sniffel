@@ -139,8 +139,7 @@ function diff(left, right) {
             const newValue = right[field.key];
             if (newValue === 0) {
                 return `${right.player} hat ${field.name} gestrichen.`
-            }
-            if (!isNaN(parseInt(newValue))) {
+            } else if (!isNaN(parseInt(newValue))) {
                 return `${right.player} hat für ${field.name} eine ${newValue} eingetragen.`
             }
         }
@@ -149,7 +148,22 @@ function diff(left, right) {
     return undefined;
 }
 
+function rank(card, cards) {
+    const score = sumTotal(card);
+    if (score === 0) {
+        return 0;
+    }
+    const scores = cards.map(c => sumTotal(c))
+    const distinctSorted = [...new Set(scores)].sort((a, b) => b - a)
+    const rank = distinctSorted.indexOf(score) + 1;
+    // console.log("scores", scores);
+    // console.log("distinctSorted", distinctSorted);
+    // console.log(`${score} -> ${rank}`);
+    return rank;
+}
+
 export default {
+    fields,
     create,
     clear,
     sumUpper,
@@ -157,5 +171,5 @@ export default {
     sumLower,
     sumTotal,
     diff,
-    fields
+    rank
 }

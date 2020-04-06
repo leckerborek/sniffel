@@ -14,9 +14,9 @@
                 @change="pushData"
               >
                 <template v-slot:prepend>
-                  <span class="headline" v-if="first(card)">🥇</span>
-                  <span class="headline" v-if="second(card)">🥈</span>
-                  <span class="headline" v-if="third(card)">🥉</span>
+                  <span class="headline" v-if="rank(card) === 1">🥇</span>
+                  <span class="headline" v-else-if="rank(card) === 2">🥈</span>
+                  <span class="headline" v-else-if="rank(card) === 3">🥉</span>
                 </template>
               </v-text-field>
             </v-list-item>
@@ -79,14 +79,8 @@ export default {
     lowerFields: card.fields.filter(field => !field.upper)
   }),
   methods: {
-    first(c) {
-      return true;
-    },
-    second(c) {
-      return false;
-    },
-    third(c) {
-      return false;
+    rank(c) {
+      return card.rank(c, this.roomData.cards);
     },
     sumUpper(c) {
       return card.sumUpper(c);

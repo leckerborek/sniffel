@@ -39,7 +39,7 @@
     <v-footer color="indigo" app>
       <span class="white--text">a #stayathome project</span>
     </v-footer>
-    <v-snackbar v-model="snackVisible" color="info" :timeout="70000">{{snackText}}</v-snackbar>
+    <v-snackbar v-model="snackVisible" color="info" :timeout="7000">{{snackText}}</v-snackbar>
   </v-app>
 </template>
 
