@@ -4,37 +4,37 @@ import { v4 as uuidv4 } from "uuid";
 const fields = [
     {
         key: "one",
-        name: "1-er",
+        name: "1er",
         hint: "1, 2, 3, 4, 5",
         upper: true
     },
     {
         key: "two",
-        name: "2-er",
+        name: "2er",
         hint: "2, 4, 6, 8, 10",
         upper: true
     },
     {
         key: "three",
-        name: "3-er",
+        name: "3er",
         hint: "3, 6, 9, 12, 15",
         upper: true
     },
     {
         key: "four",
-        name: "4-er",
+        name: "4er",
         hint: "4, 8, 12, 16, 20",
         upper: true
     },
     {
         key: "five",
-        name: "5-er",
+        name: "5er",
         hint: "5, 10, 15, 20, 25",
         upper: true
     },
     {
         key: "six",
-        name: "1-er",
+        name: "6er",
         hint: "6, 12, 18, 24, 30",
         upper: true
     },
@@ -135,8 +135,14 @@ function diff(left, right) {
     }
 
     for (let field of fields) {
-        if (left[field.key] !== right[field.key] && right[field.key] !== undefined) {
-            return `${right.player} hat für ${field.name} eine ${right[field.key]} eingetragen.`
+        if (left[field.key] !== right[field.key]) {
+            const newValue = right[field.key];
+            if (newValue === 0) {
+                return `${right.player} hat ${field.name} gestrichen.`
+            }
+            if (!isNaN(parseInt(newValue))) {
+                return `${right.player} hat für ${field.name} eine ${newValue} eingetragen.`
+            }
         }
     }
 
