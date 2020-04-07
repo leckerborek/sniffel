@@ -7,42 +7,44 @@
       <h2>Willkommen in {{roomName}} 👋</h2>
     </v-row>
     <score-cards :room-name="roomName" :room-data="roomData"></score-cards>
-    <v-row align="stretch">
-      <web-rtc
-        ref="webrtc"
-        width="100%"
-        :roomId="roomName"
-        v-on:joined-room="joinedRoom"
-        v-on:left-room="logEvent"
-        v-on:open-room="logEvent"
-        v-on:share-started="logEvent"
-        v-on:share-stopped="logEvent"
-        @error="onError"
-      ></web-rtc>
-      <v-row justify="space-between" v-if="!loading">
-        <v-col>
-          <v-card>
-            <v-card-title>Video-Chat</v-card-title>
-            <v-card-subtitle>Sniffle verwendet Alientechnologie und WebRTC um dir eine unvergessliche Live Chat Erfahrung zu bieten - gönn' dir reichlich und lade die Seite einfach neu, wenn mal etwas nicht funktioniert.</v-card-subtitle>
-            <v-card-actions>
-              <v-btn text @click="onJoin">Join Video</v-btn>
-              <v-btn text @click="onLeave">Leave</v-btn>
-              <v-btn text @click="onShareScreen">Share Screen</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-        <v-col>
-          <v-card>
-            <v-card-title>Optionen</v-card-title>
-            <v-card-subtitle>Wähle aus diesen reichhaltigen Optionen und mache Sniffel zu deinem ganz persönlichen Erlebnis!</v-card-subtitle>
-            <v-card-actions>
-              <v-btn text @click="newPlayer">Neuer Spieler</v-btn>
-              <v-btn text @click="clearCards">Alle Punkte löschen</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
+    <v-container>
+      <v-row align="stretch">
+        <web-rtc
+          ref="webrtc"
+          width="100%"
+          :roomId="roomName"
+          v-on:joined-room="joinedRoom"
+          v-on:left-room="logEvent"
+          v-on:open-room="logEvent"
+          v-on:share-started="logEvent"
+          v-on:share-stopped="logEvent"
+          @error="onError"
+        ></web-rtc>
+        <v-row justify="space-between" v-if="!loading">
+          <v-col>
+            <v-card>
+              <v-card-title>Video-Chat</v-card-title>
+              <v-card-subtitle>Sniffle verwendet Alientechnologie und WebRTC um dir eine unvergessliche Live Chat Erfahrung zu bieten - gönn' dir reichlich und lade die Seite einfach neu, wenn mal etwas nicht funktioniert.</v-card-subtitle>
+              <v-card-actions>
+                <v-btn text @click="onJoin">Join Video</v-btn>
+                <v-btn text @click="onLeave">Leave</v-btn>
+                <v-btn text @click="onShareScreen">Share Screen</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card>
+              <v-card-title>Optionen</v-card-title>
+              <v-card-subtitle>Wähle aus diesen reichhaltigen Optionen und mache Sniffel zu deinem ganz persönlichen Erlebnis!</v-card-subtitle>
+              <v-card-actions>
+                <v-btn text @click="newPlayer">Neuer Spieler</v-btn>
+                <v-btn text @click="clearCards">Alle Punkte löschen</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-row>
-    </v-row>
+    </v-container>
   </v-container>
 </template>
 

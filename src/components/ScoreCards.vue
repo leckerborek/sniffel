@@ -1,10 +1,13 @@
 <template>
   <v-container>
-    <v-row no-gutters justify="space-between" v-if="roomData !== undefined">
-      <!-- https://vuejs.org/v2/guide/list.html -->
-      <v-col v-for="card in roomData.cards" :key="card.id">
-        <!-- <v-card outlined title> -->
-        <v-card>
+    <v-row v-if="roomData !== undefined">
+      <draggable
+        v-model="roomData.cards"
+        :component-data="scrollContainerData"
+        handle=".scroll-handle"
+        @end="pushData"
+      >
+        <v-card v-for="card in roomData.cards" :key="card.id" class="scroll-card" :raised="true">
           <v-list>
             <v-list-item>
               <v-text-field
@@ -54,6 +57,11 @@
               </v-btn>
             </v-col>
             <v-col class="text-center">
+              <v-btn fab dark x-small color="blue" class="scroll-handle">
+                <v-icon dark>mdi-hand</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col class="text-center">
               <v-btn fab dark x-small color="blue" @click="move(card, +1)">
                 <v-icon dark>mdi-arrow-right</v-icon>
               </v-btn>
@@ -65,19 +73,37 @@
             </v-col>
           </v-card-actions>
         </v-card>
-      </v-col>
+      </draggable>
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+.scroll-card {
+  min-width: 230;
+  margin: 15px;
+}
+.scroll-container {
+  display: flex;
+  overflow-x: scroll;
+}
+.scroll-handle {
+  cursor: ew-resize;
+}
+</style>
 
 <script>
 /* eslint-disable no-unused-vars */
 import rooms from "@/services/rooms";
 import card from "@/services/card";
 import arrayMove from "array-move";
+import draggable from "vuedraggable";
 
 export default {
   name: "scoreCards",
+  components: {
+    draggable
+  },
   async created() {
     console.log("scoreCards.created");
   },
@@ -87,7 +113,12 @@ export default {
   },
   data: () => ({
     upperFields: card.fields.filter(field => field.upper),
-    lowerFields: card.fields.filter(field => !field.upper)
+    lowerFields: card.fields.filter(field => !field.upper),
+    scrollContainerData: {
+      attrs: {
+        class: "scroll-container"
+      }
+    }
   }),
   methods: {
     async move(c, direction) {
@@ -126,6 +157,13 @@ export default {
         card => card.id !== c.id
       );
       this.pushData();
+    },
+    getScrollContainerData() {
+      return {
+        attrs: {
+          class: "scroll-container"
+        }
+      };
     }
   }
 };
