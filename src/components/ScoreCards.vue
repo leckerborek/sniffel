@@ -47,8 +47,18 @@
             <v-list-item>Unten: {{sumLower(card)}}</v-list-item>
             <v-list-item>Gesamt: {{sumTotal(card)}}</v-list-item>
           </v-list>
-          <v-card-actions justify="end">
-            <v-col class="text-right">
+          <v-card-actions justify="between">
+            <v-col class="text-center">
+              <v-btn fab dark x-small color="blue" @click="move(card, -1)">
+                <v-icon dark>mdi-arrow-left</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col class="text-center">
+              <v-btn fab dark x-small color="blue" @click="move(card, +1)">
+                <v-icon dark>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col class="text-center">
               <v-btn fab dark x-small color="red" @click="remove(card)">
                 <v-icon dark>mdi-trash-can</v-icon>
               </v-btn>
@@ -64,6 +74,7 @@
 /* eslint-disable no-unused-vars */
 import rooms from "@/services/rooms";
 import card from "@/services/card";
+import arrayMove from "array-move";
 
 export default {
   name: "scoreCards",
@@ -79,6 +90,18 @@ export default {
     lowerFields: card.fields.filter(field => !field.upper)
   }),
   methods: {
+    async move(c, direction) {
+      const currentIndex = this.roomData.cards.indexOf(c);
+      const newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < this.roomData.cards.length) {
+        this.roomData.cards = arrayMove(
+          this.roomData.cards,
+          currentIndex,
+          newIndex
+        );
+        await this.pushData();
+      }
+    },
     rank(c) {
       return card.rank(c, this.roomData.cards);
     },

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "adapterjs": "^0.15.4",
+    "array-move": "^2.2.1",
     "core-js": "^3.6.4",
     "firebase": "^7.13.1",
     "ikea-name-generator": "^1.0.3",
