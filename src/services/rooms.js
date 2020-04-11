@@ -3,6 +3,7 @@ import "firebase/firestore"
 import { v4 as uuidv4 } from "uuid";
 import snackbear from "@/services/snackbear"
 import card from "@/services/card";
+const rdiff = require('recursive-diff');
 
 const collection = "rooms";
 
@@ -31,7 +32,6 @@ async function initRoom(roomName) {
     const snapshot = await firebase.firestore()
         .collection(collection)
         .doc(roomName)
-        // .withConverter(scoreCardsConverter)
         .get();
 
     if (snapshot.exists) {
@@ -44,7 +44,7 @@ async function initRoom(roomName) {
 
 async function observeRoom(roomName, callback) {
     if (this.unsubscribe !== undefined) {
-        console.log("rooms.observeRoom - Unsubscribing from previous snapshot...");
+        console.log("rooms.observeRoom: Unsubscribing from previous snapshot...");
         this.unsubscribe();
     }
 
@@ -54,6 +54,15 @@ async function observeRoom(roomName, callback) {
         .onSnapshot(function (doc) {
             console.log("rooms.observeRoom.onSnapshot", doc.data());
             const data = doc.data();
+
+            // check for diffs, if nothing changed dont fire callback to avoid disturbance in transitions
+            const diffs = rdiff.getDiff(this.data, data);
+            console.info(`rooms.observeRoom: Deep Diff Result`, diffs);
+            if (diffs.length === 0) {
+                console.info(`rooms.observeRoom: Update contains no new data, will not fire callback.`);
+                return;
+            }
+
             // just a fallback for old data without id
             if (Array.isArray(data.cards)) {
                 data.cards = data.cards.map(card => {
@@ -63,6 +72,8 @@ async function observeRoom(roomName, callback) {
                     return card;
                 });
             }
+
+            this.data = data;
             callback(data);
         });
 }
@@ -81,16 +92,17 @@ async function updateRoom(roomName, data) {
 }
 
 function diff(left, right) {
+    let diffs = [];
     if (left === undefined || right === undefined) {
-        return undefined;
+        return diffs;
     }
-    
+
     // spieler hinzugefügt
     if (left.cards.length < right.cards.length) {
         for (let rightCard of right.cards) {
             const leftCard = left.cards.find(leftCard => leftCard.id === rightCard.id);
             if (leftCard === undefined) {
-                return `${rightCard.player} wurde dem Spiel hinzugefügt.`;
+                diffs.push(`${rightCard.player} wurde dem Spiel hinzugefügt.`);
             }
         }
     }
@@ -100,7 +112,7 @@ function diff(left, right) {
         for (let leftCard of left.cards) {
             const rightCard = right.cards.find(rightCard => rightCard.id === leftCard.id);
             if (rightCard === undefined) {
-                return`${leftCard.player} hat das Spiel verlassen.`;
+                diffs.push(`${leftCard.player} hat das Spiel verlassen.`);
             }
         }
     }
@@ -109,14 +121,12 @@ function diff(left, right) {
     for (let leftCard of left.cards) {
         const rightCard = right.cards.find(rightCard => rightCard.id === leftCard.id);
         if (rightCard !== undefined) {
-            const diffText = card.diff(leftCard, rightCard);
-            if (diffText !== undefined) {
-                return diffText;
-            }
+            const cardDiffs = card.diff(leftCard, rightCard);
+            diffs = diffs.concat(cardDiffs);
         }
     }
 
-    return undefined;
+    return diffs;
 }
 
 export default {

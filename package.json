@@ -13,6 +13,7 @@
     "core-js": "^3.6.4",
     "firebase": "^7.13.1",
     "ikea-name-generator": "^1.0.3",
+    "recursive-diff": "^1.0.6",
     "rtcmulticonnection": "^3.6.9",
     "uuid": "^7.0.2",
     "vue": "^2.6.11",

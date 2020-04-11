@@ -91,9 +91,13 @@ export default {
     },
     onDataChanged(newData) {
       console.log("room.onDataChanged", newData);
-      const info = rooms.diff(this.roomData, newData);
-      if (info !== undefined) {
-        snackbear.info(info);
+      const diffs = rooms.diff(this.roomData, newData);
+      if (diffs.length > 0) {
+        console.log(
+          `RoomPage.onDataChanged: Detected ${diffs.length} changes in the current update.`,
+          diffs
+        );
+        snackbear.info(diffs[0]);
       }
       this.roomData = newData;
     },
@@ -107,13 +111,13 @@ export default {
       this.img = this.$refs.webrtc.shareScreen();
     },
     onError(error, stream) {
-      console.log("On Error Event", error, stream);
+      console.log("RoomPage.onError", error, stream);
     },
     logEvent(event) {
-      console.log("Event : ", event);
+      console.log("RoomPage.logEvent", event);
     },
     joinedRoom(videoId) {
-      console.log(`Share started with ID ${videoId}`);
+      console.log(`RoomPage.joinedRoom: Share started with ID ${videoId}`);
     }
   }
 };

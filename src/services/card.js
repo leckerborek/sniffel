@@ -126,26 +126,27 @@ function sumTotal(card) {
 }
 
 function diff(left, right) {
+    const diffs = [];
     if (left === undefined || right === undefined) {
-        return undefined;
+        return diffs;
     }
 
     if (left.player !== right.player) {
-        return `${left.player} ist jetzt unter dem Namen ${right.player} bekannt.`;
+        diffs.push(`${left.player} ist jetzt unter dem Namen ${right.player} bekannt.`);
     }
 
     for (let field of fields) {
         if (left[field.key] !== right[field.key]) {
             const newValue = right[field.key];
             if (newValue === 0) {
-                return `${right.player} hat ${field.name} gestrichen.`
+                diffs.push(`${right.player} hat ${field.name} gestrichen.`);
             } else if (!isNaN(parseInt(newValue))) {
-                return `${right.player} hat für ${field.name} eine ${newValue} eingetragen.`
+                diffs.push(`${right.player} hat für ${field.name} eine ${newValue} eingetragen.`);
             }
         }
     }
 
-    return undefined;
+    return diffs;
 }
 
 function rank(card, cards) {
