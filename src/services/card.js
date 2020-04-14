@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 function validate(value, valid) {
     if (value === null ||
         value === undefined ||
+        value === "" ||
         value === 0) {
         return true;
     } else if (Array.isArray(valid)) {
@@ -19,6 +20,8 @@ function validate(value, valid) {
             return true;
         }
     }
+
+    console.log("invalid value", value)
 
     return "Nope...";
 }
