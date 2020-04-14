@@ -32,6 +32,8 @@
                   :dense="false"
                   type="number"
                   pattern="[0-9]*"
+                  :rules="[field.validator]"
+                  :validate-on-blur="true"
                   @change="pushData"
                 ></v-text-field>
               </v-list-item>
@@ -45,6 +47,8 @@
                   :dense="false"
                   type="number"
                   pattern="[0-9]*"
+                  :rules="[field.validator]"
+                  :validate-on-blur="true"
                   @change="pushData"
                 ></v-text-field>
               </v-list-item>
@@ -134,6 +138,9 @@ export default {
     }
   }),
   methods: {
+    validator(value) {
+      return "oh no";
+    },
     async move(c, direction) {
       const currentIndex = this.roomData.cards.indexOf(c);
       const newIndex = currentIndex + direction;

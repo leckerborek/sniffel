@@ -1,84 +1,107 @@
 import { getName } from "ikea-name-generator";
 import { v4 as uuidv4 } from "uuid";
 
+function validate(value, valid) {
+    if (value === null ||
+        value === undefined ||
+        value === 0) {
+        return true;
+    } else if (Array.isArray(valid)) {
+        if (valid.includes(value)) {
+            return true;
+        }
+    } else if (Number.isInteger(valid)) {
+        if (valid === value) {
+            return true;
+        }
+    } else if (Number.isInteger(value)) {
+        if (value >= 3 && value <= 30) {
+            return true;
+        }
+    }
+
+    return "Nope...";
+}
+
 const fields = [
     {
         key: "one",
         name: "1er",
         hint: "1, 2, 3, 4, 5",
-        upper: true
-    },
-    {
+        upper: true,
+        validator: value => validate(value, [1, 2, 3, 4, 5])
+    }, {
         key: "two",
         name: "2er",
         hint: "2, 4, 6, 8, 10",
-        upper: true
-    },
-    {
+        upper: true,
+        validator: (value) => validate(value, [2, 4, 6, 8, 10])
+    }, {
         key: "three",
         name: "3er",
         hint: "3, 6, 9, 12, 15",
-        upper: true
-    },
-    {
+        upper: true,
+        validator: (value) => validate(value, [3, 6, 9, 12, 15])
+    }, {
         key: "four",
         name: "4er",
         hint: "4, 8, 12, 16, 20",
-        upper: true
-    },
-    {
+        upper: true,
+        validator: (value) => validate(value, [4, 8, 12, 16, 20])
+    }, {
         key: "five",
         name: "5er",
         hint: "5, 10, 15, 20, 25",
-        upper: true
-    },
-    {
+        upper: true,
+        validator: (value) => validate(value, [5, 10, 15, 20, 25])
+    }, {
         key: "six",
         name: "6er",
         hint: "6, 12, 18, 24, 30",
-        upper: true
-    },
-    {
+        upper: true,
+        validator: (value) => validate(value, [6, 12, 18, 24, 30])
+    }, {
         key: "threeofakind",
         name: "3 gleiche",
         hint: "Alle Augen",
-        upper: false
-    },
-    {
+        upper: false,
+        validator: (value) => validate(value)
+    }, {
         key: "fourofakind",
         name: "4 gleiche",
         hint: "Alle Augen",
-        upper: false
-    },
-    {
+        upper: false,
+        validator: (value) => validate(value)
+    }, {
         key: "fullhouse",
         name: "Full House",
         hint: "25",
-        upper: false
-    },
-    {
+        upper: false,
+        validator: (value) => validate(value, 25)
+    }, {
         key: "smallstraight",
         name: "Kleine Straße",
         hint: "30",
-        upper: false
-    },
-    {
+        upper: false,
+        validator: (value) => validate(value, 30)
+    }, {
         key: "largestraight",
         name: "Große Straße",
         hint: "40",
-        upper: false
-    },
-    {
+        upper: false,
+        validator: (value) => validate(value, 40)
+    }, {
         key: "chance",
         name: "Chance",
         hint: "Alle Augen",
-        upper: false
-    },
-    {
+        upper: false,
+        validator: (value) => validate(value)
+    }, {
         key: "sniffel",
         name: "Sniffel",
         hint: "50",
-        upper: false
+        upper: false,
+        validator: (value) => validate(value, 50)
     }
 ]
 
