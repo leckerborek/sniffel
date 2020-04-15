@@ -9,73 +9,73 @@
       >
         <transition-group name="list" style="display: flex;">
           <v-card v-for="card in roomData.cards" :key="card.id" class="scroll-card" :raised="true">
-            <v-list>
-              <v-list-item>
+            <v-card-title>
+              <v-text-field
+                v-model="card.player"
+                label="Name"
+                :single-line="true"
+                @change="pushData"
+              >
+                <template v-slot:prepend>
+                  <span class="headline" v-if="rank(card) === 1">🥇</span>
+                  <span class="headline" v-else-if="rank(card) === 2">🥈</span>
+                  <span class="headline" v-else-if="rank(card) === 3">🥉</span>
+                </template>
+              </v-text-field>
+            </v-card-title>
+            <v-card-text>
+              <v-form>
                 <v-text-field
-                  v-model="card.player"
-                  label="Name"
-                  :single-line="true"
-                  @change="pushData"
-                >
-                  <template v-slot:prepend>
-                    <span class="headline" v-if="rank(card) === 1">🥇</span>
-                    <span class="headline" v-else-if="rank(card) === 2">🥈</span>
-                    <span class="headline" v-else-if="rank(card) === 3">🥉</span>
-                  </template>
-                </v-text-field>
-              </v-list-item>
-              <v-list-item v-for="field in upperFields" :key="field.key">
-                <v-text-field
+                  v-for="field in upperFields"
+                  :key="field.key"
                   v-model.number="card[field.key]"
                   :label="field.name"
                   :placeholder="field.hint"
-                  :dense="false"
+                  :dense="true"
                   type="number"
                   pattern="[0-9]*"
                   :rules="[field.validator]"
                   :validate-on-blur="true"
                   @change="pushData"
                 ></v-text-field>
-              </v-list-item>
-              <v-list-item>Oben: {{sumUpper(card)}}</v-list-item>
-              <v-list-item>Bogus: {{bonusUpper(card)}}</v-list-item>
-              <v-list-item v-for="field in lowerFields" :key="field.key">
+              </v-form>
+
+              <div class="subtitle-1">Oben: {{sumUpper(card)}}</div>
+              <div class="subtitle-1">Bogus: {{bonusUpper(card)}}</div>
+
+              <v-form class="mt-6">
                 <v-text-field
+                  v-for="field in lowerFields"
+                  :key="field.key"
                   v-model.number="card[field.key]"
                   :label="field.name"
                   :placeholder="field.hint"
-                  :dense="false"
+                  :dense="true"
                   type="number"
                   pattern="[0-9]*"
                   :rules="[field.validator]"
                   :validate-on-blur="true"
                   @change="pushData"
                 ></v-text-field>
-              </v-list-item>
-              <v-list-item>Unten: {{sumLower(card)}}</v-list-item>
-              <v-list-item>Gesamt: {{sumTotal(card)}}</v-list-item>
-            </v-list>
+              </v-form>
+
+              <div class="subtitle-1">Unten: {{sumLower(card)}}</div>
+              <div class="subtitle-1">Gesamt: {{sumTotal(card)}}</div>
+            </v-card-text>
+
             <v-card-actions justify="between">
-              <v-col class="text-center">
-                <v-btn fab dark x-small color="blue" @click="move(card, -1)">
-                  <v-icon dark>mdi-arrow-left</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="text-center">
-                <v-btn fab dark x-small color="blue" class="scroll-handle">
-                  <v-icon dark>mdi-hand</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="text-center">
-                <v-btn fab dark x-small color="blue" @click="move(card, +1)">
-                  <v-icon dark>mdi-arrow-right</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="text-center">
-                <v-btn fab dark x-small color="red" @click="remove(card)">
-                  <v-icon dark>mdi-trash-can</v-icon>
-                </v-btn>
-              </v-col>
+              <v-btn text fab dark small color="blue" @click="move(card, -1)">
+                <v-icon dark>mdi-arrow-left</v-icon>
+              </v-btn>
+              <v-btn text fab dark small color="blue" class="scroll-handle">
+                <v-icon dark>mdi-hand</v-icon>
+              </v-btn>
+              <v-btn text fab dark small color="blue" @click="move(card, +1)">
+                <v-icon dark>mdi-arrow-right</v-icon>
+              </v-btn>
+              <v-btn text fab dark small color="red" @click="remove(card)">
+                <v-icon dark>mdi-trash-can</v-icon>
+              </v-btn>
             </v-card-actions>
           </v-card>
         </transition-group>
@@ -86,7 +86,7 @@
 
 <style scoped>
 .scroll-card {
-  min-width: 230;
+  /* min-width: 200px; */
   margin: 15px;
 }
 .scroll-container {

@@ -21,8 +21,6 @@ function validate(value, valid) {
         }
     }
 
-    console.log("invalid value", value)
-
     return "Nope...";
 }
 
