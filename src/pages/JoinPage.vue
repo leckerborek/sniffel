@@ -1,21 +1,19 @@
 <template>
-  <v-container class="fill-height fluid">
+  <v-container class="fill-height">
     <span class="background"></span>
-    <v-row align="center" justify="center">
-      <v-card>
-        <v-list>
-          <v-list-item>
-            <v-list-item-title class="headline mb-1">where's da party at?!</v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field label="Raum" v-model="roomName" />
-          </v-list-item>
-          <v-list-item>
-            <v-btn :block="true" @click="join">Join</v-btn>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-row>
+    <v-card class="mx-auto">
+      <v-list>
+        <v-list-item>
+          <v-list-item-title class="headline mb-1">where's da party at?!</v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-text-field label="Raum" v-model="roomName" />
+        </v-list-item>
+        <v-list-item>
+          <v-btn :block="true" @click="join">Join</v-btn>
+        </v-list-item>
+      </v-list>
+    </v-card>
   </v-container>
 </template>
 

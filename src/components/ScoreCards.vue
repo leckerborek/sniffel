@@ -28,39 +28,36 @@
                 <v-text-field
                   v-for="field in upperFields"
                   :key="field.key"
+                  type="number"
+                  pattern="[0-9]*"
+                  class="mb-3"
+                  :dense="true"
                   v-model.number="card[field.key]"
                   :label="field.name"
                   :placeholder="field.hint"
-                  :dense="true"
-                  type="number"
-                  pattern="[0-9]*"
                   :rules="[field.validator]"
                   :validate-on-blur="true"
                   @change="pushData"
                 ></v-text-field>
-              </v-form>
-
-              <div class="subtitle-1">Oben: {{sumUpper(card)}}</div>
-              <div class="subtitle-1">Bogus: {{bonusUpper(card)}}</div>
-
-              <v-form class="mt-6">
+                <div class="subtitle-1 mt-n4">Summe Oben: {{sumUpper(card)}}</div>
+                <div class="subtitle-1 mb-6">Bogus: {{bonusUpper(card)}}</div>
                 <v-text-field
                   v-for="field in lowerFields"
                   :key="field.key"
+                  type="number"
+                  pattern="[0-9]*"
+                  class="mb-3"
+                  :dense="true"
                   v-model.number="card[field.key]"
                   :label="field.name"
                   :placeholder="field.hint"
-                  :dense="true"
-                  type="number"
-                  pattern="[0-9]*"
                   :rules="[field.validator]"
                   :validate-on-blur="true"
                   @change="pushData"
                 ></v-text-field>
+                <div class="subtitle-1 mt-n4">Summe Unten: {{sumLower(card)}}</div>
+                <div class="subtitle-1">Gesamt: {{sumTotal(card)}}</div>
               </v-form>
-
-              <div class="subtitle-1">Unten: {{sumLower(card)}}</div>
-              <div class="subtitle-1">Gesamt: {{sumTotal(card)}}</div>
             </v-card-text>
 
             <v-card-actions justify="between">
