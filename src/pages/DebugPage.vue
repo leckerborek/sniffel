@@ -26,6 +26,26 @@
 
   <v-container>
     <v-row>
+      <v-card>
+        <v-card-title>Dicer</v-card-title>
+        <v-card-subtitle>Nix zum dicen da? Nix Problem! D-Quadrat (tm) Digital Dice 4tw!</v-card-subtitle>
+        <div v-if="renderComponent">
+          <img
+            v-for="die of dice"
+            :key="die.key"
+            :src="'dice/' + die.number + 'n.gif'"
+            max-width="98"
+          />
+        </div>
+        <div v-for="(die, index) of dice" :key="index">{{index}} -> {{die}}</div>
+        <v-card-actions>
+          <v-btn text @click="roll">Roll</v-btn>
+          <v-btn text @click="dice=[]">Reset</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-row>
+
+    <v-row>
       <v-card height="200px" class="yo">
         <v-list>
           <v-list-item v-for="item in items" :key="item.key">
@@ -36,6 +56,7 @@
     </v-row>
 
     <v-row>
+      <!-- tag="v-flex" -->
       <draggable v-model="items" :component-data="getComponentData()">
         <!-- <div class="card-container"> -->
         <v-card v-for="item in items" :key="item.key" class="card">
@@ -77,9 +98,12 @@ export default {
     draggable
   },
   data: () => ({
-    items: []
+    items: [],
+    dice: [],
+    renderComponent: true
   }),
   created() {
+    this.roll();
     for (let i = 0; i < 10; ++i) {
       this.items.push({
         key: uuidv4(),
@@ -88,6 +112,31 @@ export default {
     }
   },
   methods: {
+    roll() {
+      for (let i = 0; i < 5; ++i) {
+        const number = Math.floor(Math.random() * Math.floor(5)) + 1;
+        // vue cannot handle array manipulation via index
+        // eslint-disable-next-line no-undef
+        this.dice.splice(i, 1, {
+          //key: uuidv4(),
+          // changing keys yield in weird gif rendering behaviour
+          key: i,
+          number: number
+        });
+      }
+      console.log("Dice", this.dice);
+      //this.forceRerender();
+    },
+    forceRerender() {
+      // https://michaelnthiessen.com/force-re-render/
+      // Remove my-component from the DOM
+      this.renderComponent = false;
+
+      this.$nextTick(() => {
+        // Add the component back in
+        this.renderComponent = true;
+      });
+    },
     getComponentData() {
       return {
         attrs: {
