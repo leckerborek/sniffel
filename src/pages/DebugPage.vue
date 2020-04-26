@@ -33,7 +33,7 @@
           <img
             v-for="die of dice"
             :key="die.key"
-            :src="'dice/' + die.number + 'n.gif'"
+            :src="'dice/' + die.number + 'n.gif?reload=' + die.random"
             max-width="98"
           />
         </div>
@@ -118,7 +118,7 @@ export default {
         // vue cannot handle array manipulation via index
         // eslint-disable-next-line no-undef
         this.dice.splice(i, 1, {
-          //key: uuidv4(),
+          random: uuidv4(),
           // changing keys yield in weird gif rendering behaviour
           key: i,
           number: number
