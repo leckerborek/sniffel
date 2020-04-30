@@ -48,8 +48,7 @@ jobs:
       - name: Check Artifact
         run: |
           pwd
-          ls
-          ls ./dist
+          ls -la
       - name: Use Node.js 12.x
         uses: actions/setup-node@master
         with:
