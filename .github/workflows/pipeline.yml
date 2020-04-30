@@ -41,9 +41,15 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
       - name: Download Artifact
-        uses: actions/download-artifact@b85295d276d63cd55cb476c952ef01b3e40c39a5
+        uses: actions/download-artifact@v2
         with:
           name: dist
+          path: dist
+      - name: Check Artifact
+        run: |
+          pwd
+          ls
+          ls ./dist
       - name: Use Node.js 12.x
         uses: actions/setup-node@master
         with:
@@ -51,11 +57,6 @@ jobs:
       - name: Install /functions dependencies
         working-directory: ./functions
         run: npm ci
-      - name: wtf
-        run: |
-          pwd
-          ls
-          ls ./dist
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
