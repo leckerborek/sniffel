@@ -29,18 +29,13 @@
       <v-card>
         <v-card-title>Dicer</v-card-title>
         <v-card-subtitle>Nix zum dicen da? Nix Problem! D-Quadrat (tm) Digital Dice 4tw!</v-card-subtitle>
-        <div v-if="renderComponent">
-          <img
-            v-for="die of dice"
-            :key="die.key"
-            :src="'dice/' + die.number + 'n.gif?reload=' + die.random"
-            max-width="98"
-          />
-        </div>
-        <div v-for="(die, index) of dice" :key="index">{{index}} -> {{die}}</div>
+        <die></die>
+        <die></die>
+        <die></die>
+        <die></die>
+        <die></die>
         <v-card-actions>
           <v-btn text @click="roll">Roll</v-btn>
-          <v-btn text @click="dice=[]">Reset</v-btn>
         </v-card-actions>
       </v-card>
     </v-row>
@@ -86,6 +81,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable vue/no-unused-components */
 import WebRtc from "@/components/WebRtcFix";
+import Die from "@/components/Die";
 import draggable from "vuedraggable";
 
 import { getName } from "ikea-name-generator";
@@ -95,47 +91,19 @@ export default {
   name: "DebugPage",
   components: {
     WebRtc,
+    Die,
     draggable
   },
   data: () => ({
+    number: 1,
+    changeDetector: uuidv4(),
     items: [],
-    dice: [],
-    renderComponent: true
   }),
-  created() {
-    this.roll();
-    for (let i = 0; i < 10; ++i) {
-      this.items.push({
-        key: uuidv4(),
-        name: getName(true)
-      });
-    }
-  },
+  created() {},
   methods: {
     roll() {
-      for (let i = 0; i < 5; ++i) {
-        const number = Math.floor(Math.random() * Math.floor(5)) + 1;
-        // vue cannot handle array manipulation via index
-        // eslint-disable-next-line no-undef
-        this.dice.splice(i, 1, {
-          random: uuidv4(),
-          // changing keys yield in weird gif rendering behaviour
-          key: i,
-          number: number
-        });
-      }
-      console.log("Dice", this.dice);
-      //this.forceRerender();
-    },
-    forceRerender() {
-      // https://michaelnthiessen.com/force-re-render/
-      // Remove my-component from the DOM
-      this.renderComponent = false;
-
-      this.$nextTick(() => {
-        // Add the component back in
-        this.renderComponent = true;
-      });
+      this.number = Math.floor(Math.random() * 6 + 1);
+      this.changeDetector = uuidv4();
     },
     getComponentData() {
       return {

@@ -43,6 +43,22 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-card-title>Dicer</v-card-title>
+              <v-card-subtitle>Nix zum dicen da? Nix Problem! D-Quadrat (tm) Digital Dice 4tw!</v-card-subtitle>
+              <die></die>
+              <die></die>
+              <die></die>
+              <die></die>
+              <die></die>
+              <v-card-actions>
+                <v-btn text>Roll all the dices yo!</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-row>
     </v-container>
   </v-container>
@@ -54,6 +70,7 @@
 <script>
 import ScoreCards from "@/components/ScoreCards";
 import WebRtc from "@/components/WebRtcFix";
+import Die from "@/components/Die";
 import rooms from "@/services/rooms";
 import card from "@/services/card";
 import snackbear from "@/services/snackbear";
@@ -62,7 +79,8 @@ export default {
   name: "RoomPage",
   components: {
     ScoreCards,
-    WebRtc
+    WebRtc,
+    Die
   },
   async created() {
     console.log("room.created");
