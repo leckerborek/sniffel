@@ -48,13 +48,13 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: '12.x'
-      - name: Install /functions dependencies
-        working-directory: ./functions
-        run: npm ci
+      # - name: Install /functions dependencies
+      #   working-directory: ./functions
+      #   run: npm ci
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy
-          # args: deploy --except functions
+          #args: deploy
+          args: deploy --except functions
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
