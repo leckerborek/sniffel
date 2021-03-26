@@ -27,8 +27,8 @@
   <v-container>
     <v-row>
       <v-card>
-        <v-card-title>Dicer</v-card-title>
-        <v-card-subtitle>Nix zum dicen da? Nix Problem! D-Quadrat (tm) Digital Dice 4tw!</v-card-subtitle>
+        <v-card-title>Virtuelle Würfel</v-card-title>
+        <v-card-subtitle>Keine Würfel? Kein Problem!</v-card-subtitle>
         <die></die>
         <die></die>
         <die></die>
